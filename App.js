@@ -1,21 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React,{useState} from 'react';
+import * as Font from 'expo-font';
+import Todo from './Todo';
+import AppLoading from 'expo-app-loading';
+import HomeStack from './routes/homeStack'
 
+const getFonts = () => Font.loadAsync({
+  'noto-regular' : require('./fonts/NotoSansTC-Regular.otf'),
+  'NotoSansTC-Regular' : require('./fonts/NotoSansTC-Black.otf'),
+
+})
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const [fonts, setfonts] = useState(false)
+
+  if (fonts) {
+    return (
+      <HomeStack/>
+    );
+  }else{
+    return (
+      <AppLoading 
+        startAsync={getFonts}
+        onFinish={() => setfonts(true)}
+        onError={() => console.log('ss')}
+      /> 
+    )
+  }
+}
